@@ -3,6 +3,8 @@ package com.example.winenotes
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -31,6 +33,24 @@ class MainActivity : AppCompatActivity() {
         adapter = MyAdapter()
         binding.recyclerview.setAdapter(adapter)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.sort_by_title) {
+            //function
+            return true
+        } else if (item.itemId == R.id.sort_by_last_modified) {
+            //function
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
     inner class MyViewHolder(val view: TextView) :
         RecyclerView.ViewHolder(view) {
 
