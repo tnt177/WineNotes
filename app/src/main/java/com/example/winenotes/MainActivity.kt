@@ -1,11 +1,9 @@
 package com.example.winenotes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,7 +50,22 @@ class MainActivity : AppCompatActivity() {
 
 
     inner class MyViewHolder(val view: TextView) :
-        RecyclerView.ViewHolder(view) {
+        RecyclerView.ViewHolder(view),
+        View.OnClickListener, View.OnLongClickListener {
+
+            init {
+              view.setOnClickListener(this)
+              view.setOnLongClickListener(this)
+            }
+
+        override fun onClick(p0: View?) {
+            val intent = Intent(applicationContext, WineActivity::class.java)
+
+        }
+
+        override fun onLongClick(p0: View?): Boolean {
+            TODO("Not yet implemented")
+        }
 
     }
     inner class MyAdapter :
