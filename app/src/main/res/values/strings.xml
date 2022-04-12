@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Wine Notes</string>
     <string name="text">Text</string>
-    <string name="sort_by_title">Sort by Title</string>
-    <string name="sort_by_last_modified_date">Sort by Last Modified Date</string>
+    <string name="sort_by_title">Sort Notes by Title</string>
+    <string name="sort_by_last_modified_date">Sort Notes by Last Modified Date</string>
+    <string name="add_a_new_note">Add a New Note</string>
 </resources>
