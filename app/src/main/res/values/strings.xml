@@ -4,4 +4,6 @@
     <string name="sort_by_title">Sort Notes by Title</string>
     <string name="sort_by_last_modified_date">Sort Notes by Last Modified Date</string>
     <string name="add_a_new_note">Add a New Note</string>
+    <string name="note_title">Note Title</string>
+    <string name="note">Note</string>
 </resources>
