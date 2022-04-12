@@ -7,10 +7,10 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [NOTE::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun NoteDao(): NoteDao
+    abstract fun noteDao(): NoteDao
 
     companion object {
-        private val NAME_OF_DATABASE = "wines"
+        private val NAME_OF_DATABASE = "notes"
 
         @Volatile
         private var INSTANCE: AppDatabase? = null
