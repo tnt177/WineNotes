@@ -8,11 +8,11 @@ import androidx.room.PrimaryKey
 class NOTE (
     @PrimaryKey(autoGenerate = true) val id : Long,
     @ColumnInfo(name = "title") val title : String,
-    @ColumnInfo(name = "notes") val notes : String,
-    @ColumnInfo(name = "last_modified") val lastModified : String
+    @ColumnInfo(name = "notes_entered") val notesEntered : String,
+    // @ColumnInfo(name = "last_modified") val lastModified : String
 ){
 
     override fun toString(): String {
-        return "${title}, ${notes} (${id})"
+        return "${title}, ${notesEntered} (${id})"
     }
 }

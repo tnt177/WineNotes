@@ -1,19 +1,31 @@
 package com.example.winenotes
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TextView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.winenotes.database.AppDatabase
+import com.example.winenotes.database.NOTE
 import com.example.winenotes.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var adapter : MyAdapter
+    private val notes = mutableListOf<NOTE>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +42,25 @@ class MainActivity : AppCompatActivity() {
 
         adapter = MyAdapter()
         binding.recyclerview.setAdapter(adapter)
+
+        loadAllNotes()
+    }
+
+    private fun loadAllNotes() {
+        CoroutineScope(Dispatchers.IO).launch {
+           val db = AppDatabase.getDatabase(applicationContext)
+            val dao = db.noteDao()
+            val results = dao.getAllNotes()
+            for (note in results) {
+                Log.i("STATUS_MAIN", "read ${note}")
+            }
+
+            withContext(Dispatchers.Main) {
+                notes.clear()
+                notes.addAll(results)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -44,8 +75,29 @@ class MainActivity : AppCompatActivity() {
         } else if (item.itemId == R.id.sort_by_last_modified) {
             //function
             return true
+        } else if(item.itemId == R.id.add_new_note) {
+            addNewNote()
+            return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private val startForAddResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result : ActivityResult ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                loadAllNotes()
+            }
+        }
+
+    private fun addNewNote() {
+        val intent = Intent(applicationContext, WineActivity::class.java)
+        intent.putExtra(
+            getString(R.string.intent_purpose_key),
+            getString(R.string.intent_purpose_add_note)
+        )
+        startForAddResult.launch(intent)
     }
 
 
@@ -77,11 +129,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            TODO("Not yet implemented")
+            val note = notes[position]
+            holder.view.text = "${note.title} ${note.notesEntered}"
         }
 
         override fun getItemCount(): Int {
-            return 0
+            return notes.size
         }
     }
 }
