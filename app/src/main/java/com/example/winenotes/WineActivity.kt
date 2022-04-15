@@ -13,6 +13,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WineActivity : AppCompatActivity() {
 
@@ -45,6 +47,7 @@ class WineActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     binding.titleEditText.setText(note.title)
                     binding.editTextTextMultiLine.setText(note.notesEntered)
+                    binding.lastModifiedTextView.setText(note.lastModified)
                 }
             }
         }
@@ -60,18 +63,28 @@ class WineActivity : AppCompatActivity() {
             return
         }
         val note = binding.editTextTextMultiLine.getText().toString().trim().capitalize()
+        val now : Date = Date()
+        val databaseDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        databaseDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+        var dateString : String = databaseDateFormat.format(now)
+
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        parser.setTimeZone(TimeZone.getTimeZone("UTC"))
+        val dateInDatabase : Date = parser.parse(dateString)
+        val displayFormat = SimpleDateFormat("HH:mm a MM/yyyy ")
+        val displayString: String = displayFormat.format(dateInDatabase)
 
         CoroutineScope(Dispatchers.IO).launch {
             val noteDao = AppDatabase.getDatabase(applicationContext)
                 .noteDao()
 
             if (purpose.equals(getString(R.string.intent_purpose_add_note))) {
-                val note = NOTE(0, title, note)
+                val note = NOTE(0, title, note,displayString)
                 noteId = noteDao.addNote(note)
                 Log.i("STATUS_NOTE", "inserted new note: ${note}")
             } else {
                 // update current note in the database
-                val note = NOTE(noteId, title, note)
+                val note = NOTE(noteId, title, note, displayString)
                 noteDao.updateNote(note)
                 Log.i("STATUS_NOTE", "updated existing note: ${note}")
             }

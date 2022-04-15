@@ -184,7 +184,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val note = notes[position]
-            holder.view.text = "${note.title}"
+            holder.view.text = "${note.title}\n${note.lastModified}"
         }
 
         override fun getItemCount(): Int {
