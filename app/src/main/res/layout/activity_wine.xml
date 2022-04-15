@@ -24,8 +24,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
+        android:hint="@string/title"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
+        android:textColorHint="#78909C"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -53,14 +55,16 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="@string/note"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:minHeight="48dp"
+        android:textColorHint="#78909C"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/modified_textView"
@@ -68,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:text="Modified"
+        android:text="@string/modified"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
@@ -79,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:text="@string/auto_generated"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

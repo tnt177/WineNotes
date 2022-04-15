@@ -73,13 +73,27 @@ class MainActivity : AppCompatActivity() {
             sortNotesTitle()
             return true
         } else if (item.itemId == R.id.sort_by_last_modified) {
-            //function
+            sortNotesModified()
             return true
         } else if(item.itemId == R.id.add_new_note) {
             addNewNote()
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun sortNotesModified() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = AppDatabase.getDatabase(applicationContext)
+            val dao = db.noteDao()
+            val results = dao.sortNotesBylastModified()
+
+            withContext(Dispatchers.Main) {
+                notes.clear()
+                notes.addAll(results)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun sortNotesTitle() {
