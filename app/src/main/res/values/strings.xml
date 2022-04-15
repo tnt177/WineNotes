@@ -14,4 +14,8 @@
 
     <string name="intent_key_position">position</string>
     <string name="intent_key_note_id">note id</string>
+    <string name="auto_generated">Auto Generated</string>
+    <string name="modified">Modified</string>
+    <string name="title">Title</string>
+    <string name="notes">Notes</string>
 </resources>
