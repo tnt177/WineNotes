@@ -53,13 +53,13 @@ class WineActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val title = binding.titleEditText.getText().toString().trim()
+        val title = binding.titleEditText.getText().toString().trim().capitalize()
         if (title.isEmpty()) {
             Toast.makeText(applicationContext,
             "Title cannot be empty", Toast.LENGTH_LONG).show()
             return
         }
-        val note = binding.editTextTextMultiLine.getText().toString().trim()
+        val note = binding.editTextTextMultiLine.getText().toString().trim().capitalize()
 
         CoroutineScope(Dispatchers.IO).launch {
             val noteDao = AppDatabase.getDatabase(applicationContext)
