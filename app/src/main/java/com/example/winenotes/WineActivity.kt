@@ -3,6 +3,7 @@ package com.example.winenotes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.widget.Toast
 import com.example.winenotes.database.AppDatabase
@@ -18,6 +19,7 @@ class WineActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWineBinding
 
     private var purpose : String? = ""
+    private var noteId : Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,25 @@ class WineActivity : AppCompatActivity() {
         purpose = intent.getStringExtra(
             getString(R.string.intent_purpose_key)
         )
+
+        if(purpose.equals(getString(R.string.intent_purpose_update_note))) {
+            noteId = intent.getLongExtra(
+                getString(R.string.intent_key_note_id),
+                        -1
+            )
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val note = AppDatabase.getDatabase(applicationContext)
+                    .noteDao()
+                    .getNote(noteId)
+
+                withContext(Dispatchers.Main) {
+                    binding.titleEditText.setText(note.title)
+                    binding.editTextTextMultiLine.setText(note.notesEntered)
+                }
+            }
+        }
+
         setTitle("${purpose} Note")
     }
 
@@ -44,15 +65,15 @@ class WineActivity : AppCompatActivity() {
             val noteDao = AppDatabase.getDatabase(applicationContext)
                 .noteDao()
 
-            val noteId : Long
-
             if (purpose.equals(getString(R.string.intent_purpose_add_note))) {
                 val note = NOTE(0, title, note)
                 noteId = noteDao.addNote(note)
                 Log.i("STATUS_NOTE", "inserted new note: ${note}")
             } else {
                 // update current note in the database
-                TODO("Not implemented")
+                val note = NOTE(noteId, title, note)
+                noteDao.updateNote(note)
+                Log.i("STATUS_NOTE", "updated existing note: ${note}")
             }
 
         val intent = Intent()

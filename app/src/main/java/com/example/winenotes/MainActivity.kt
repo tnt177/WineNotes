@@ -91,6 +91,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    private val startForUpdateResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result : ActivityResult ->
+
+            if(result.resultCode == Activity.RESULT_OK) {
+                loadAllNotes()
+            }
+        }
+
     private fun addNewNote() {
         val intent = Intent(applicationContext, WineActivity::class.java)
         intent.putExtra(
@@ -113,6 +122,18 @@ class MainActivity : AppCompatActivity() {
         override fun onClick(p0: View?) {
             val intent = Intent(applicationContext, WineActivity::class.java)
 
+            intent.putExtra(
+                getString(R.string.intent_purpose_key),
+                getString(R.string.intent_purpose_update_note)
+            )
+
+            val note = notes[adapterPosition]
+            intent.putExtra(
+                getString(R.string.intent_key_note_id),
+                note.id
+            )
+            startForUpdateResult.launch(intent)
+
         }
 
         override fun onLongClick(p0: View?): Boolean {
@@ -130,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val note = notes[position]
-            holder.view.text = "${note.title} ${note.notesEntered}"
+            holder.view.text = "${note.title}"
         }
 
         override fun getItemCount(): Int {
