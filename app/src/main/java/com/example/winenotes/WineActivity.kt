@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.example.winenotes.database.AppDatabase
 import com.example.winenotes.database.NOTE
@@ -101,5 +103,23 @@ class WineActivity : AppCompatActivity() {
                 super.onBackPressed()
             }
         }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.note_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.cancel) {
+            cancelAddorUpdate()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun cancelAddorUpdate () {
+        setResult(RESULT_CANCELED)
+        finish()
     }
 }
