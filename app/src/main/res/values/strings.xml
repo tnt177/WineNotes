@@ -4,8 +4,8 @@
     <string name="sort_by_title">Sort Notes by Title</string>
     <string name="sort_by_last_modified_date">Sort Notes by Last Modified Date</string>
     <string name="add_a_new_note">Add a New Note</string>
-    <string name="note_title">Note Title</string>
-    <string name="note">Note</string>
+    <string name="note_title">Title</string>
+    <string name="note">Notes</string>
 
     <!-- intent keys -->
     <string name="intent_purpose_key">purpose</string>
@@ -16,7 +16,7 @@
     <string name="intent_key_note_id">note id</string>
     <string name="auto_generated">Auto Generated</string>
     <string name="modified">Modified</string>
-    <string name="title">Title</string>
+    <string name="title">Note Title</string>
     <string name="notes">Notes</string>
     <string name="cancel">Cancel</string>
     <string name="when_done_editing_hit_the_back_button_to_return_to_the_main_view">When done editing, hit the back button to return to the main view</string>
